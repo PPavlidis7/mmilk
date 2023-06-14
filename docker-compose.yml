@@ -1,0 +1,23 @@
+version: '3.7'
+
+# docker network create --subnet 10.5.0.0/24 local_mothers_milk_network
+# add "10.5.0.6        server.mothers-milk.local" at host's hosts file
+
+networks:
+  local_mothers_milk_network:
+    external: true
+
+
+services:
+  web:
+    image: node:18.16.0-bullseye
+    volumes:
+      - ./web/:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - "5173:5173"
+    command: sh -c "npm run dev"
+    networks:
+      - local_mothers_milk_network
+
+  
