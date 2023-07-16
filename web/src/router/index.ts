@@ -1,5 +1,5 @@
 // import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/HomeView.vue'
 
 // const router = createRouter({
 //   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +23,7 @@
 // export default router
 
 import { createRouter, createWebHistory } from 'vue-router';
-import Signin from '../views/Signin/Signin.vue';
+import SignIn from '../views/Signin/SignIn.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,12 +31,12 @@ const router = createRouter({
     {
       path: '/signin',
       name: 'signin',
-      component: Signin,
+      component: SignIn,
     },
     {
       path: '/signin/:userId',
       name: 'signinWithUserId',
-      component: Signin,
+      component: SignIn,
     },
     // {
     //   path: '/dashboard',
@@ -45,13 +45,14 @@ const router = createRouter({
     //   meta: { requiresAuth: true },
     // },
     {
-      path: '/*',
-      redirect: '/dashboard',
+      path: '/:pathMatch(.*)*',
       meta: { requiresAuth: true },
+      component: HomeView
     },
     {
-      path: '*',
-      redirect: '/',
+      path: '/:pathMatch(.*)',
+      meta: { requiresAuth: true },
+      component: HomeView
     },
   ],
 });
@@ -60,7 +61,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Check if the route requires authentication
   // Replace 'isLoggedIn' with your actual authentication logic
-  const isLoggedIn = true; // Example: Assume the user is always authenticated
+  const isLoggedIn = false; // Example: Assume the user is always authenticated
   if (to.meta.requiresAuth && !isLoggedIn) {
     next('/signin');
   } else {
